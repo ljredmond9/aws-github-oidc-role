@@ -16,14 +16,18 @@ resource "aws_iam_role" "main" {
             Federated = data.aws_iam_openid_connect_provider.github.arn
           }
           Action = "sts:AssumeRoleWithWebIdentity"
-          Condition = {
-            StringEquals = {
-              "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            }
-            StringLike = {
-              "token.actions.githubusercontent.com:sub" = "repo:${var.organization_name}/${var.repo_name}:*"
-            }
-          }
+          Condition = merge(
+            {
+              StringEquals = {
+                "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+              }
+            },
+            length(var.repositories) > 0 ? {
+              StringLike = {
+                "token.actions.githubusercontent.com:sub" = [for repo in var.repositories : "repo:${repo}:*"]
+              }
+            } : {}
+          )
         }
       ]
     }

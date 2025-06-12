@@ -3,14 +3,10 @@ variable "role_name" {
   type        = string
 }
 
-variable "organization_name" {
-  description = "The name of the GitHub organization"
-  type        = string
-}
-
-variable "repo_name" {
-  description = "The name of the GitHub repository"
-  type        = string
+variable "repositories" {
+  description = "List of GitHub repositories (in format 'organization/repository') that can assume the role"
+  type        = list(string)
+  default     = []
 }
 
 variable "policy_arns" {
