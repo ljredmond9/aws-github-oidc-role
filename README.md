@@ -9,8 +9,8 @@ The AWS account must have the OIDC provider for GitHub Actions configured ([Addi
 
 ## Details
 
-The role is configured with a trust policy that only allows workflows from a specific GitHub repository to assume it.
-This is configured by the `repository_name` and `repo_name` variables.
+The role is configured with a trust policy that allows workflows from specified GitHub repositories to assume it.
+This is configured by the `repositories` variable, which accepts a list of repository names in the format "organization/repository".
 
 By default, the role has no permissions attached. Policies can be attached to the role using one or both of the 
 `policy_arns` and `inline_policies` variables.
